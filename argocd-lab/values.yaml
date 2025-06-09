@@ -1,0 +1,35 @@
+global:
+  domain: argocd.local.io
+
+configs:
+  params:
+    server.insecure: true
+  cm:
+    k8s.plugin.rollouts.enabled: "true"
+  extensions:
+    enabled: true    
+  dex.config: |
+    connectors:
+       - type: github
+       id: github
+       name: GitHub
+       config:
+         clientID: Iv23linziuJNr2sneY0B
+         clientSecret: 53faa24afb6d244eac3e1a4ead687eb9ab41eb8d
+         orgs:
+          - name: rmiguelitodev
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    extraTls:
+      - hosts:
+        - argocd.local.io
+        secretName: wildcard-tls
+        
+dex:
+  enabled: true

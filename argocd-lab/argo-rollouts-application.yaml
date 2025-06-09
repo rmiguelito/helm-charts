@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts
+  namespace: argocd
+spec:
+  destination:
+    namespace: argo-rollouts
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-rollouts
+    targetRevision: 2.32.0 # Use latest stable version
+    helm:
+      releaseName: argo-rollouts
+      parameters:
+        - name: dashboard.enabled
+          value: "true"
+        - name: dashboard.ingress.enabled
+          value: "true"
+        - name: dashboard.ingress.hosts[0] 
+          value: argorollouts.local.io
+          
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
