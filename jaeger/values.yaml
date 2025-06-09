@@ -538,8 +538,8 @@ collector:
     labels: {}
     # Used to create an Ingress record.
     # The 'hosts' variable accepts two formats:
-    # hosts:
-    #   - chart-example.local
+    #hosts:
+    #  - otel.local.io
     # or:
     # hosts:
     #   - host: chart-example.local
@@ -646,7 +646,7 @@ query:
   basePath: /
   initContainers: []
   oAuthSidecar:
-    enabled: false
+    enabled: true
     resources:
       {}
       # limits:
@@ -717,25 +717,23 @@ query:
       name: admin
       targetPort: admin
   ingress:
-    enabled: false
+    enabled: true
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
     annotations: {}
     labels: {}
     # Used to create an Ingress record.
-    # hosts:
-    #   - chart-example.local
+    hosts:
+      - otel.local.io
     # annotations:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     # labels:
     # app: jaeger-query
-    # tls:
-    # Secrets must be manually created in the namespace.
-    # - secretName: chart-example-tls
-    #   hosts:
-    #     - chart-example.local
+    tls:
+    - hosts:
+        - otel.local.io
     pathType:
     health:
       exposed: false
